@@ -1,0 +1,40 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{color}
+
+\newcommand{\eRelation}[2]{$\dfrac{\text{#1}}{\text{#2}}$}
+\newcommand{\eState}[2]{$\left< \text{#1},\; \text{#2}\right>$}
+\newcommand{\eRule}[3]{\eState{#1}{#2} $\rightarrow$ #3}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\begin{document}
+	\begin{center}
+		\huge\textbf{Exersice Sheet 2}\\[0.5cm]
+	
+		\Large
+		$\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$ \textbf{Sample 				Solution} $\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$\\[1cm]
+	\end{center}
+\large
+	\section*{Task 1:}
+	\section*{Task 2: Operational Semantics of other Statements}
+		\indent\indent For $c\in Cmd,\; \sigma , \sigma ^{'}, \sigma ^{''} \in \Sigma$ and $b\in BExp$. The \textcolor{red}{repeat until relation}\\\indent $\left< \text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b,\; \sigma \right> \rightarrow \sigma ^{''}$ is defined by:\\
+		
+		\begin{center}
+			\eRelation
+				{\eRule{c}{$\sigma$}{$\sigma ^{''}$ \quad \eRule{b}{$\sigma ^{''}$}{true}}}
+				{\eRule{\textbf{repeat} c \textbf{until} b}{$\sigma$}{$\sigma ^{''}$}}
+			(\textbf{repeat}-true)\\[0.75cm]
+			\eRelation
+				{\eRule{c}{$\sigma$}{$\sigma ^{'}$} \quad \eRule{b}{$\sigma ^{'}$}{false} \quad \eRule{\textbf{repeat} c \textbf{until} b}{$\sigma ^{'}$}{$\sigma ^{''}$}}
+				{\eRule{\textbf{repeat} c \textbf{until} b}{$\sigma$}{$\sigma ^{''}$}}
+			(\textbf{repeat}-false)\\
+		\end{center}
+	\section*{Task 3:}
+	\section*{Task 4:}
+
+\end{document}
