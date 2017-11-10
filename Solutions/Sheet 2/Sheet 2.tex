@@ -22,19 +22,43 @@
 \large
 	\section*{Task 1:}
 	\section*{Task 2: Operational Semantics of other Statements}
-		\indent\indent For $c\in Cmd,\; \sigma , \sigma ^{'}, \sigma ^{''} \in \Sigma$ and $b\in BExp$. The \textcolor{red}{repeat until relation}\\\indent $\left< \text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b,\; \sigma \right> \rightarrow \sigma ^{''}$ is defined by:\\
+		\indent\indent For $c\in Cmd,\; \sigma , \sigma ^{'}, \sigma ^{''} \in \Sigma$ and $b\in BExp$ the \textcolor{red}{repeat until relation}\\\indent $\left< \text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b,\; \sigma \right> \rightarrow \sigma ^{''}$ is defined by:\\
 		
 		\begin{center}
 			\eRelation
-				{\eRule{c}{$\sigma$}{$\sigma ^{''}$ \quad \eRule{b}{$\sigma ^{''}$}{true}}}
+				{\eRule{c}{$\sigma$}{$\sigma ^{''}$ \quad \eRule{b}{$\sigma ^{''}$}{\textbf{true}}}}
 				{\eRule{\textbf{repeat} c \textbf{until} b}{$\sigma$}{$\sigma ^{''}$}}
-			(\textbf{repeat}-true)\\[0.75cm]
+			(\textbf{repeat}-\textbf{true})\\[0.75cm]
 			\eRelation
-				{\eRule{c}{$\sigma$}{$\sigma ^{'}$} \quad \eRule{b}{$\sigma ^{'}$}{false} \quad \eRule{\textbf{repeat} c \textbf{until} b}{$\sigma ^{'}$}{$\sigma ^{''}$}}
+				{\eRule{c}{$\sigma$}{$\sigma ^{'}$} \quad \eRule{b}{$\sigma ^{'}$}{\textbf{false}} \quad \eRule{\textbf{repeat} c \textbf{until} b}{$\sigma ^{'}$}{$\sigma ^{''}$}}
 				{\eRule{\textbf{repeat} c \textbf{until} b}{$\sigma$}{$\sigma ^{''}$}}
-			(\textbf{repeat}-false)\\
+			(\textbf{repeat}-\textbf{false})\\
 		\end{center}
-	\section*{Task 3:}
+	\section*{Task 3: Termination}
+		\indent\indent Prove that \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{'}$} implies that \eRule{b}{$\sigma ^{'}$}{\textbf{false}}.\\
+		\indent This will be proven by induction on the height h of derivation trees.\\
+		\subsection*{Induction Base: (h=1)}
+		\indent\indent If the derivation tree has hight 1 only one derivation is possible, namely\\
+		\begin{center}
+			\eRelation
+				{\eRule{b}{$\sigma$}{false}}
+				{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{'}$}}(\textbf{while}-false)
+		\end{center}
+		\indent\indent Since this rule is unambiguous the induction base holds trivially.\\
+		\subsection*{Induction Hypothesis:}
+		\begin{center}
+			\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{'}$} implies \eRule{b}{$\sigma ^{'}$}{\textbf{false}}
+		\end{center}
+		\indent\indent holds for all derivations of an arbitrary, but fixed height h and for all states \indent$\sigma , \; \sigma ^{'}$.\\
+		\subsection*{Induction Step: ($h\mapsto h+1$)}
+		\indent\indent For all derivations of height $h+1$ ($h\geq 1$), we have\\
+		\begin{center}
+			\eRelation
+				{\eRule{b}{$\sigma$}{\textbf{true}} \quad \eRule{c}{$\sigma$}{$\sigma ^{'}$} \quad \eRelation{$\cdots$ (derivation tree of height h)}{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma ^{'}$}{$\sigma ^{''}$}}}
+				{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{''}$}}
+		\end{center}
+		\indent\indent By Induction Hypothesis \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma ^{'}$}{$\sigma ^{''}$} implies \eRule{b}{$\sigma ^{'}$}{\textbf{false}}.\\
+		\indent Due to the propagating characteristics of the derivation trees we also know \indent that \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{''}$} implies \eRule{b}{$\sigma ^{''}$}{false}. \qquad $\blacksquare$
 	\section*{Task 4:}
 
 \end{document}
