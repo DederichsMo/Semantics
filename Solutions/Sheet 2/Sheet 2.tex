@@ -59,6 +59,22 @@
 		\end{center}
 		\indent\indent By Induction Hypothesis \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma ^{'}$}{$\sigma ^{''}$} implies \eRule{b}{$\sigma ^{'}$}{\textbf{false}}.\\
 		\indent Due to the propagating characteristics of the derivation trees we also know \indent that \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{''}$} implies \eRule{b}{$\sigma ^{''}$}{false}. \qquad $\blacksquare$
-	\section*{Task 4:}
+	\section*{Task 4: Variables that do not matter}
+	
+	\subsection*{(a)}
+	
+	\indent\indent $\text{\textbf{mod}}: \qquad \text{\textbf{Cmd}}\rightarrow 2^{\text{\textbf{Var}}}$,\\
+	\indent $\text{\textbf{skip}}\mapsto\emptyset$\\
+	\indent $x:=a\mapsto \left\lbrace x \right\rbrace$\\
+	\indent $c_1;c_2\mapsto \text{\textbf{mod}}\left( c_1\right) \cup\text{\textbf{mod}}\left( c_2\right)$\\
+	\indent $\text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b \mapsto \text{\textbf{mod}}\left( c\right)$\\
+	
+	\subsection*{(b)}
+	
+	\indent\indent $\text{\textbf{dep}}: \qquad \text{\textbf{Cmd}}\rightarrow 2^{\text{\textbf{Var}}}$,\\
+	\indent $\text{\textbf{skip}}\mapsto\emptyset$\\
+	\indent $x:=a\mapsto \text{\textbf{FV}}\left( a\right)$\\
+	\indent $c_1;c_2\mapsto \text{\textbf{dep}}\left( c_1\right) \cup\text{\textbf{dep}}\left( c_2\right)$\\
+	\indent $\text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b \mapsto \text{\textbf{dep}}\left( c\right) \cup \text{\textbf{FV}}\left( b\right)$
 
 \end{document}
