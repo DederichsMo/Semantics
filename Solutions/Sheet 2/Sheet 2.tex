@@ -8,8 +8,12 @@
 \usepackage{color}
 
 \newcommand{\eRelation}[2]{$\dfrac{\text{#1}}{\text{#2}}$}
-\newcommand{\eState}[2]{$\left< \text{#1},\; \text{#2}\right>$}
+\newcommand{\eState}[2]{$\left\langle \text{#1},\; \text{#2}\right\rangle$}
 \newcommand{\eRule}[3]{\eState{#1}{#2} $\rightarrow$ #3}
+
+\newcommand{\Mod}[0]{\text{\textbf{mod}}}
+\newcommand{\dep}[0]{\text{\textbf{dep}}}
+\newcommand{\FV}[0]{\text{\textbf{FV}}}
 
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \begin{document}
@@ -20,7 +24,7 @@
 		$\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$ \textbf{Sample 				Solution} $\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$\\[1cm]
 	\end{center}
 \large
-	\section*{Task 1: Operational Semantics & Derivation Trees}
+	\section*{Task 1: Operational Semantics \& Derivation Trees}
 	\section*{Task 2: Operational Semantics of other Statements}
 		\indent\indent For $c\in Cmd,\; \sigma , \sigma ^{'}, \sigma ^{''} \in \Sigma$ and $b\in BExp$ the \textcolor{red}{repeat until relation}\\\indent $\left< \text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b,\; \sigma \right> \rightarrow \sigma ^{''}$ is defined by:\\
 		
@@ -37,20 +41,20 @@
 	\section*{Task 3: Termination}
 		\indent\indent Prove that \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{'}$} implies that \eRule{b}{$\sigma ^{'}$}{\textbf{false}}.\\
 		\indent This will be proven by induction on the height h of derivation trees.\\
-		\subsection*{Induction Base: (h=1)}
-		\indent\indent If the derivation tree has hight 1 only one derivation is possible, namely\\
+		\subsection*{\underline{Induction Base: (h=1)}}
+		\indent\indent If the derivation tree has height 1 only one derivation is possible, namely\\
 		\begin{center}
 			\eRelation
 				{\eRule{b}{$\sigma$}{false}}
 				{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{'}$}}(\textbf{while}-false)
 		\end{center}
 		\indent\indent Since this rule is unambiguous the induction base holds trivially.\\
-		\subsection*{Induction Hypothesis:}
+		\subsection*{\underline{Induction Hypothesis:}}
 		\begin{center}
 			\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{'}$} implies \eRule{b}{$\sigma ^{'}$}{\textbf{false}}
 		\end{center}
 		\indent\indent holds for all derivations of an arbitrary, but fixed height h and for all states \indent$\sigma , \; \sigma ^{'}$.\\
-		\subsection*{Induction Step: ($h\mapsto h+1$)}
+		\subsection*{\underline{Induction Step: ({\boldmath$h\mapsto h+1$})}}
 		\indent\indent For all derivations of height $h+1$ ($h\geq 1$), we have\\
 		\begin{center}
 			\eRelation
@@ -79,5 +83,52 @@
 
 	\subsection*{(c)}
 	
+	\indent\indent Show for every program c and states $\sigma_{1} ,\; \sigma_{2}$ with\\
+	\indent\indent $\bullet$ \quad $\sigma_{1} =_\dep(c) \sigma_{2}$\\
+	\indent\indent $\bullet$ \quad $\left\langle c,\; \sigma_{1} \right\rangle \rightarrow \sigma^{'}_{1}$ and\\
+	\indent\indent $\bullet$ \quad $\left\langle c, \; \sigma_{2}\right\rangle \rightarrow \sigma^{'}_{2}$\\
+	\indent that $\sigma^{'}_{1} =_\Mod(c)\sigma^{'}_{2}$.\\
+	\indent This will be shown by induction on the height h of derivation trees.\\\\
+	\subsubsection*{\underline{Induction Base: (h=1)}}
+	
+	\indent\indent If the derivation tree has height 1 only two derivations are possible, namely \indent the skip and the assignment derivations.\\\\
+	\indent \textbf{case:} $c=\text{\textbf{skip}}$\\
+	\indent\indent This case is trivial due to the definition of \textbf{mod} and that the empty set is \indent\indent identical in any two arbitrary but fixed states $\sigma_{1}$ and $\sigma_{2}$.\\\\
+	\indent \textbf{case:} $c=$ {\boldmath$x:=a$}\\
+	\indent\indent Following the definitions of \textbf{dep} and \textbf{mod} we get $\Mod(c)=\left\lbrace x\right\rbrace$ and \indent\indent $\dep(c)=\FV(a)$.\\
+	\indent\indent Furthermore we have
+	\begin{center}
+		\eRelation
+			{\eRule{a}{$\sigma_{i}$}{$z_{i}$}}
+			{\eRule{$x:=a$}{$\sigma_{i}$}{$\sigma_{i}\left[ x\mapsto z_{i}\right]$}}, $i\in \left\lbrace 1,\; 2\right\rbrace$\\
+	\end{center}
+	\indent\indent\indent Since $\sigma_{1}=_{\FV(a)}\sigma_{2}$ (assumption) it holds that $\left\langle a,\; \sigma_{1}\right\rangle\rightarrow z \Leftrightarrow \left\langle a,\; \sigma_{2}\right\rangle\rightarrow z$ \indent\indent(Lemma 2.6, Chapter 2, Slide 17). Thus $z_{1}=z_{2}$ and moreover $\sigma^{'}_{1}=_{\Mod(c)}\sigma^{'}_{2}$.
+	
+	\subsubsection*{\underline{Induction Hypothesis:}}
+	
+	\begin{center}
+		$\sigma_{1} =_\dep(c) \sigma_{2}$, $\left\langle c,\; \sigma_{1} \right\rangle \rightarrow \sigma^{'}_{1}$ and $\left\langle c, \; \sigma_{2}\right\rangle \rightarrow \sigma^{'}_{2}$ imply that $\sigma^{'}_{1} =_\Mod(c)\sigma^{'}_{2}$
+	\end{center}
+	\indent\indent holds for all derivations of an arbitrary, but fixed height h and for all states \indent$\sigma,\; \sigma^{'}$.
+	
+	\subsubsection*{\underline{Induction Step: ({\boldmath$h\mapsto h+1$})}}
+	
+	\indent\indent \textbf{case:} $c=${\boldmath $c_{1};c_{2}$}\\
+	
+	\indent\indent Following the definition of \textbf{dep} and \textbf{mod} we get\\\indent\indent $\Mod(c)=\Mod(c_{1})\cup \Mod(c_2)$ and $\dep(c)=\dep(c_{1})\cup \dep(c_{2})$.\\
+	
+	\indent\indent Furthermore we have
+	\begin{center}
+		\eRelation
+			{\eRule{$c_{1}$}{$\sigma_{i}$}{$\sigma_{i}^{*}$} \qquad \eRule{$c_{2}$}{$\sigma_{i}^{*}$}{$\sigma_{i}^{'}$}}
+			{\eRule{$c_{1};c_{2}$}{$\sigma_{i}$}{$\sigma_{i}^{'}$}}, $i\in \left\lbrace 1,\; 2\right\rbrace$
+	\end{center}
+	
+	\indent\indent By induction hypothesis it holds that $\sigma_{1}^{*}=_{\Mod(c_{1})}\sigma_{2}^{*}$.\\
+	\indent\indent Now let $R=\dep(c_{2})\verb|\|\Mod(c_{1})$. Then we get two additional coherences:\\
+	\indent\indent\indent $(1)$ \quad $\sigma_{1}=_{R}\sigma_{2}$ (because $R\subseteq \dep(c)$)\\
+	\indent\indent\indent $(2)$ \quad $\sigma_{i}=_{R}\sigma_{i}^{*}$, $i\in \left\lbrace 1,\; 2\right\rbrace$ (by auxiliary (a))\\
+	\indent\indent Thus it holds that $\sigma_{1}^{*}=_{R}\sigma_{2}^{*}$ and therefore $\sigma_{1}^{*}=_{\Mod(c_1)\cup\dep(c_2)}\sigma_{2}^{*}$\\
+	\indent\indent Applying the induction hypothesis we then get that $\sigma_{1}^{'}=_{\Mod(c_2)}\sigma_{2}^{'}$\\
 	
 \end{document}
