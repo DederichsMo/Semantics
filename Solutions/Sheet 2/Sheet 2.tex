@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
 \usepackage[T1]{fontenc}
@@ -6,10 +6,15 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{color}
+\usepackage{ebproof}
+\usepackage{pdflscape}
 
 \newcommand{\eRelation}[2]{$\dfrac{\text{#1}}{\text{#2}}$}
 \newcommand{\eState}[2]{$\left\langle \text{#1},\; \text{#2}\right\rangle$}
 \newcommand{\eRule}[3]{\eState{#1}{#2} $\rightarrow$ #3}
+
+\newcommand{\sgabb}[2]{\sigma_{{#1},{#2}}}
+\newcommand{\mytextcircled}[1]{\text{\textcircled{#1}}}
 
 \newcommand{\Mod}[0]{\text{\textbf{mod}}}
 \newcommand{\dep}[0]{\text{\textbf{dep}}}
@@ -17,6 +22,8 @@
 
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \begin{document}
+
+\begin{landscape}
 	\begin{center}
 		\huge\textbf{Exersice Sheet 2}\\[0.5cm]
 	
@@ -24,7 +31,87 @@
 		$\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$ \textbf{Sample 				Solution} $\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$\\[1cm]
 	\end{center}
 \large
+
+	\thispagestyle{empty}
 	\section*{Task 1: Operational Semantics \& Derivation Trees}
+	
+	\indent\indent To shorten the derivation tree we first introduce the  following two abbreviations.\\
+	\indent\indent $c_{1}=\text{\textbf{while}}\; \left(x \leq y\right)\; \text{\textbf{do}}\; c_{2}\; \text{\textbf{end}}$\\
+	\indent\indent $c_{2}= y\;:=\;y\;-\;x;\; x\;:=\;x\;-\;4$\\
+
+	\indent Furthermore we introduce the notation $\sigma_{ij}$ which defines $\sigma \left(x\right)\;=\;i$ and $\sigma \left(y\right)\;=\;j$.\\
+	\begin{center}		
+		\begin{prooftree}
+    \infer0{\langle 23, \sigma\rangle \rightarrow 23}
+    \infer[left label = \small{(asgn)}]1{\langle x:=23, \sigma\rangle \rightarrow \sigma[x \mapsto 23]}
+    \infer0{\langle 42, \sigma[x \mapsto 23]\rangle \rightarrow 42}
+    \infer[left label = \small{(asgn)}]1{\langle y:=42, \sigma[x \mapsto 23]\rangle \rightarrow \sgabb{23}{42}}
+    \hypo{\mytextcircled{a} \langle c_1, \sgabb{23}{42}\rangle \rightarrow \sgabb{15}{0}}
+    \infer[left label = \small{(seq)}]2{\langle y:=42; c_1, \sigma[x \mapsto 23]\rangle \rightarrow \sgabb{15}{0}}
+    \infer[left label = \small{(seq)}]2{\langle c,\sigma \rangle \rightarrow \sgabb{15}{0}}
+		\end{prooftree}\vspace{1cm}
+		
+		\textcircled{a}
+\hspace*{1cm}\begin{prooftree}
+    \infer0{\langle x,\sgabb{23}{42}\rangle  \rightarrow 23}
+    \infer0{\langle y,\sgabb{23}{42}\rangle  \rightarrow 42}
+    \infer2{\langle x \leq y, \sgabb{23}{42}\rangle \rightarrow \text{\textbf{true}}}
+    \hypo{\mytextcircled{b} \langle c_2, \sgabb{23}{42}\rangle \rightarrow \sgabb{19}{19}}
+    \hypo{\mytextcircled{c} \langle c_1, \sgabb{19}{19}\rangle \rightarrow \sgabb{15}{0}}
+    \infer[left label = \small{(wh-t)}]3{\langle c_1, \sgabb{23}{42}\rangle \rightarrow \sgabb{15}{0}}
+\end{prooftree}\vspace{1cm}
+
+\textcircled{b}
+\hspace*{1cm}\begin{prooftree}
+    \infer0{\langle y, \sgabb{23}{42}\rangle \rightarrow 42}
+    \infer0{\langle x, \sgabb{23}{42}\rangle \rightarrow 23}
+    \infer2{\langle y-x, \sgabb{23}{42}\rangle \rightarrow 19}
+    \infer[left label = \small{(asgn)}]1{\langle y:=y-x, \sgabb{23}{42}\rangle \rightarrow \sgabb{23}{19}}
+    \infer0{\langle x, \sgabb{23}{19}\rangle \rightarrow 23}
+    \infer0{\langle 4, \sgabb{23}{19}\rangle \rightarrow 4}
+    \infer2{\langle x-4, \sgabb{23}{19}\rangle \rightarrow 19}
+    \infer[left label = \small{(asgn)}]1{\langle x:=x-4, \sgabb{23}{19}\rangle \rightarrow \sgabb{19}{19}}
+    \infer[left label = \small{(seq)}]2{\langle c_2, \sgabb{23}{42}\rangle \rightarrow \sgabb{19}{19}}
+\end{prooftree}\vspace{1cm}
+
+\textcircled{c}
+\hspace*{1cm}\begin{prooftree}
+    \infer0{\langle x,\sgabb{19}{19}\rangle  \rightarrow 19}
+    \infer0{\langle y,\sgabb{19}{19}\rangle  \rightarrow 19}
+    \infer2{\langle x \leq y, \sgabb{19}{19}\rangle \rightarrow \text{\textbf{true}}}
+    \hypo{\mytextcircled{d} \langle c_2, \sgabb{19}{19}\rangle \rightarrow \sgabb{15}{0}}
+    \hypo{\mytextcircled{e} \langle c_1, \sgabb{15}{0}\rangle \rightarrow \sgabb{15}{0}}
+    \infer[left label = \small{(wh-t)}]3{\langle c_1, \sgabb{19}{19}\rangle \rightarrow \sgabb{15}{0}}
+\end{prooftree}\vspace{1cm}
+
+\thispagestyle{empty}
+
+\textcircled{d}
+\hspace*{1cm}\begin{prooftree}
+    \infer0{\langle y, \sgabb{19}{19}\rangle \rightarrow 19}
+    \infer0{\langle x, \sgabb{19}{19}\rangle \rightarrow 19}
+    \infer2{\langle y-x, \sgabb{19}{19}\rangle \rightarrow 0}
+    \infer[left label = \small{(asgn)}]1{\langle y:=y-x, \sgabb{19}{19}\rangle \rightarrow \sgabb{19}{0}}
+    \infer0{\langle x, \sgabb{19}{0}\rangle \rightarrow 19}
+    \infer0{\langle 4, \sgabb{19}{0}\rangle \rightarrow 4}
+    \infer2{\langle x-4, \sgabb{19}{0}\rangle \rightarrow 15}
+    \infer[left label = \small{(asgn)}]1{\langle x:=x-4, \sgabb{19}{0}\rangle \rightarrow \sgabb{15}{0}}
+    \infer[left label = \small{(seq)}]2{\langle c_2, \sgabb{19}{19}\rangle \rightarrow \sgabb{15}{0}}
+\end{prooftree}\vspace{1cm}
+
+\textcircled{e}
+\hspace*{1cm}\begin{prooftree}
+    \infer0{\langle x,\sgabb{15}{0}\rangle \rightarrow 15}
+    \infer0{\langle y,\sgabb{15}{0}\rangle \rightarrow 0}
+    \infer2{\langle x \leq y, \sgabb{15}{0}\rangle \rightarrow \text{\textbf{false}}}
+    \infer[left label = \small{(wh-f)}]1{\langle c_1, \sgabb{15}{0}\rangle \rightarrow \sgabb{15}{0}}
+\end{prooftree}
+	\end{center}
+		
+\end{landscape}
+		
+\newpage
+	
 	\section*{Task 2: Operational Semantics of other Statements}
 		\indent\indent For $c\in Cmd,\; \sigma , \sigma ^{'}, \sigma ^{''} \in \Sigma$ and $b\in BExp$ the \textcolor{red}{repeat until relation}\\\indent $\left< \text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b,\; \sigma \right> \rightarrow \sigma ^{''}$ is defined by:\\
 		
@@ -95,7 +182,7 @@
 	\indent \textbf{case:} $c=\text{\textbf{skip}}$\\
 	\indent\indent This case is trivial due to the definition of \textbf{mod} and that the empty set is \indent\indent identical in any two arbitrary but fixed states $\sigma_{1}$ and $\sigma_{2}$.\\\\
 	\indent \textbf{case:} $c=$ {\boldmath$x:=a$}\\
-	\indent\indent Following the definitions of \textbf{dep} and \textbf{mod} we get $\Mod(c)=\left\lbrace x\right\rbrace$ and \indent\indent $\dep(c)=\FV(a)$.\\
+	\indent\indent Following the definitions of \textbf{dep} and \textbf{mod} we get $\Mod(c)=\left\lbrace x\right\rbrace$ and \indent\indent $\dep(c)=\FV(a)$.\\\\
 	\indent\indent Furthermore we have
 	\begin{center}
 		\eRelation
@@ -130,5 +217,27 @@
 	\indent\indent\indent $(2)$ \quad $\sigma_{i}=_{R}\sigma_{i}^{*}$, $i\in \left\lbrace 1,\; 2\right\rbrace$ (by auxiliary (a))\\
 	\indent\indent Thus it holds that $\sigma_{1}^{*}=_{R}\sigma_{2}^{*}$ and therefore $\sigma_{1}^{*}=_{\Mod(c_1)\cup\dep(c_2)}\sigma_{2}^{*}$\\
 	\indent\indent Applying the induction hypothesis we then get that $\sigma_{1}^{'}=_{\Mod(c_2)}\sigma_{2}^{'}$\\
+	\indent\indent Now we introduce another set $R^{'}=\Mod(c_{1})\verb|\|\dep(c_{2})\subseteq\Mod(c_{1})$.\\
+	\indent\indent As stated earlier $\sigma_{1}^{*}=_{\Mod(c_{1})}\sigma_{2}^{*}$ thus it also holds that $\sigma_{1}^{*}=_{R^{'}}\sigma_{2}^{*}$.\\
+	\indent\indent Using auxiliary (a) we learn that $\sigma_{1}^{'}=_{R^{'}}\sigma_{2}^{'}$ holds.\\
+	\indent\indent Using this information and our previously gathered knowledge we now know \indent\indent that $\sigma_{1}^{'}=_{\Mod(c_{1})\verb|\|\dep(c_{2})\cup\Mod(c_{2})}\sigma_{2}^{'}$ holds.\\
+	\indent\indent This is equal to $\sigma_{1}^{'}=_{\Mod(c_{1})\cup\Mod(c_{2})}\sigma_{2}^{'}$.\\
+	
+	\indent \textbf{case:} $c=$ {\boldmath $\text{\textbf{repeat}}\; c ^{'}\; \text{\textbf{until}}\; b$}\\
+	
+	\indent\indent Following the definition of $\dep$ and $\Mod$ we get $\Mod(c)=\Mod(c^{'})$ and\\\indent\indent $\dep(c)=\dep(c^{'})\cup\FV(b)$.\\\\
+	\indent\indent Lets assume there exist states $\sigma_{1}^{*},\;\sigma_{2}^{*}$ so that \eRule{$c^{'}$}{$\sigma_{i}$}{$\sigma_{i}^{*}$} \quad $\left(i\in\left\lbrace 1,\;2\right\rbrace\right)$\\
+	\indent\indent By induction hypothesis and auxiliary (a) we know that\\\indent\indent $\sigma_{1}^{*}=_{\dep(c)\cup\Mod(c^{'})}\sigma_{2}^{*}$ holds.\\
+	\indent\indent Lemma 2.6 (for boolean expressions) yields that\\\indent\indent \eRule{$b$}{$\sigma_{1}^{*}$}{$\text{\textbf{true}}$} iff \eRule{$b$}{$\sigma_{2}^{*}$}{$\text{\textbf{true}}$}\\
+	
+	\indent\indent We now assume that \eRule{$b$}{$\sigma_{i}^{*}$}{$\text{\textbf{true}}$}.\\
+	\indent\indent This leads to the following derivation tree:
+	\begin{center}
+		\begin{prooftree}
+			\hypo{\left\langle c^{'}, \sigma_{i}\right\rangle \rightarrow \sigma_{i}^{*}}
+			\hypo{\left\langle b, \sigma_{i}^{*}\right\rangle \rightarrow \text{\textbf{true}}}
+			\infer2[]{\left\langle \text{\textbf{repeat}}\; c^{'}\; \text{\textbf{until}}\; b, \sigma_{i} \right\rangle \rightarrow \sigma_{i}^{*}}
+		\end{prooftree}
+	\end{center}
 	
 \end{document}
