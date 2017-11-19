@@ -1,0 +1,91 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{ebproof}
+\usepackage{pdflscape}
+
+\newcommand{\eRelation}[2]{$\dfrac{\text{#1}}{\text{#2}}$}
+\newcommand{\eState}[2]{$\left\langle \text{#1},\; \text{#2}\right\rangle$}
+\newcommand{\eRule}[3]{\eState{#1}{#2} $\rightarrow$ #3}
+
+\newcommand{\lbr}{[\![}
+\newcommand{\rbr}{]\!]}
+\newcommand{\T}{\mathfrak{T}}
+\newcommand{\lo}{\text{\textbf{loop}}}
+\newcommand{\beg}{\text{\textbf{begin}}}
+\newcommand{\en}{\text{\textbf{end}}}
+\newcommand{\rep}{\text{\textbf{repeat}}}
+\newcommand{\un}{\text{\textbf{until}}}
+\newcommand{\jmp}{\text{\textbf{JMP}}}
+\newcommand{\jmpf}{\text{\textbf{JMPF}}}
+\newcommand{\loa}{\text{\textbf{LOAD}}}
+\newcommand{\sto}{\text{\textbf{STO}}}
+\newcommand{\pus}{\text{\textbf{PUSH}}}
+\newcommand{\gt}{\text{\textbf{GT}}}
+\newcommand{\sub}{\text{\textbf{SUB}}}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\begin{document}
+
+\begin{center}
+	\huge\textbf{Exersice Sheet 3}\\[0.5cm]
+	
+	\Large
+	$\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$ \textbf{Sample 				Solution} $\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$\\[1cm]
+\end{center}
+	\large
+
+	\section*{Task 1: Operational Equivalence}
+	
+	\indent\indent Prove or disprove:\\
+	\begin{center}
+		$\text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b \sim c;\; \text{\textbf{while}}\; b\; \text{\textbf{do}}\; c\; \text{\textbf{end}}$
+	\end{center}
+	\indent\indent The claim will be disproved using a counter example.\\\\
+	\indent Lets assume $b:=\text{\textbf{true}}$ and $c:=\text{\textbf{skip}}$.\\
+	\indent The \textbf{repeat} statement will terminate after the first iteration with\\\indent \eRule{$\text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b$}{$\sigma$}{$\sigma$} while the \textbf{while} statement will never terminate as \indent its condition is always satisfied.
+	
+	\section*{Task 2: Translation of Statements}
+
+		\begin{center}
+			$\T_{c}\lbr\rep\;c\;\un\;b\rbr =\T_{c}\lbr c\rbr ;\;\T_{b}\lbr b\rbr ;\; \jmpf\left(-|\T_{c}\lbr c\rbr |+|\T_{b}\lbr b\rbr |\right)$
+		\end{center}
+		
+	\section*{Task 3: loop Loops}
+	
+	\subsection*{(a)}
+	
+		
+	
+	\normalsize
+	\begin{center}
+		\begin{prooftree}
+			\hypo{\left\langle x > 0,\; \sigma\right\rangle\rightarrow\text{\textbf{false}}}
+			\infer1{\left\langle \text{\textbf{loop}}\; x\; \text{\textbf{begin}}\; c\; \text{\textbf{end}},\; \sigma\right\rangle\rightarrow\sigma}
+		\end{prooftree}
+	\end{center}
+	
+	\begin{center}
+		\begin{prooftree}
+			\hypo{\left\langle x > 0,\; \sigma\right\rangle\rightarrow\text{\textbf{true}}}
+			\hypo{\left\langle c,\;\sigma\right\rangle\rightarrow\sigma^{'}}
+			\hypo{\left\langle z:=x-1,\;\sigma^{'}\right\rangle\rightarrow\sigma^{''}}
+			\hypo{\left\langle \text{\textbf{loop}}\; z\; \text{\textbf{begin}}\; c\; \text{\textbf{end}},\; \sigma^{''}\right\rangle\rightarrow\sigma^{'''}}
+			\infer4{\left\langle \text{\textbf{loop}}\; x\; \text{\textbf{begin}}\; c\; \text{\textbf{end}},\; \sigma\right\rangle\rightarrow\sigma^{'''}}
+		\end{prooftree}
+	\end{center}
+	
+	\large
+	
+	\subsection*{(b)}
+	
+	\begin{flalign}
+		\nonumber & \T_{c}\lbr \lo\; x\;\beg\; c\;\en\rbr=\loa (x);\; \sto (\xi);\\ \nonumber & \loa (\xi);\; \pus (0);\; \gt ;\; \jmpf (|\T_{c}\lbr c\rbr |+6);\\ \nonumber & \T_{c}\lbr c\rbr ;\; \loa (\xi);\; \pus (1);\; \sub ;\; \sto (\xi);\; \jmp (-(|\T_{c}\lbr c\rbr | + 8))
+	\end{flalign}
+	
+\end{document}
