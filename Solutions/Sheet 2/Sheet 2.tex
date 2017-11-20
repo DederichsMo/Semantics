@@ -23,7 +23,6 @@
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \begin{document}
 
-\begin{landscape}
 	\begin{center}
 		\huge\textbf{Exersice Sheet 2}\\[0.5cm]
 	
@@ -32,14 +31,14 @@
 	\end{center}
 \large
 
-	\thispagestyle{empty}
 	\section*{Task 1: Operational Semantics \& Derivation Trees}
-	
-	\indent\indent To shorten the derivation tree we first introduce the  following two abbreviations.\\
+
+	\indent\indent To shorten the derivation tree we first introduce the  following two\\\indent abbreviations.\\
 	\indent\indent $c_{1}=\text{\textbf{while}}\; \left(x \leq y\right)\; \text{\textbf{do}}\; c_{2}\; \text{\textbf{end}}$\\
 	\indent\indent $c_{2}= y\;:=\;y\;-\;x;\; x\;:=\;x\;-\;4$\\
 
-	\indent Furthermore we introduce the notation $\sigma_{ij}$ which defines $\sigma \left(x\right)\;=\;i$ and $\sigma \left(y\right)\;=\;j$.\\
+	\indent Furthermore we introduce the notation $\sigma_{ij}$ which defines\\\indent $\sigma \left(x\right)=i$ and $\sigma \left(y\right)=j$.\\
+	\normalsize
 	\begin{center}		
 		\begin{prooftree}
     \infer0{\langle 23, \sigma\rangle \rightarrow 23}
@@ -84,7 +83,6 @@
     \infer[left label = \small{(wh-t)}]3{\langle c_1, \sgabb{19}{19}\rangle \rightarrow \sgabb{15}{0}}
 \end{prooftree}\vspace{1cm}
 
-\thispagestyle{empty}
 
 \textcircled{d}
 \hspace*{1cm}\begin{prooftree}
@@ -107,10 +105,7 @@
     \infer[left label = \small{(wh-f)}]1{\langle c_1, \sgabb{15}{0}\rangle \rightarrow \sgabb{15}{0}}
 \end{prooftree}
 	\end{center}
-		
-\end{landscape}
-		
-\newpage
+\large
 	
 	\section*{Task 2: Operational Semantics of other Statements}
 		\indent\indent For $c\in Cmd,\; \sigma , \sigma ^{'}, \sigma ^{''} \in \Sigma$ and $b\in BExp$ the \textcolor{red}{repeat until relation}\\\indent $\left< \text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b,\; \sigma \right> \rightarrow \sigma ^{''}$ is defined by:\\
@@ -135,7 +130,7 @@
 				{\eRule{b}{$\sigma$}{false}}
 				{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{'}$}}(\textbf{while}-false)
 		\end{center}
-		\indent\indent Since this rule is unambiguous the induction base holds trivially.\\
+		\indent\indent Since this rule is unambiguous the induction base holds trivially.\\\newpage
 		\subsection*{\underline{Induction Hypothesis:}}
 		\begin{center}
 			\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{'}$} implies \eRule{b}{$\sigma ^{'}$}{\textbf{false}}
@@ -148,7 +143,7 @@
 				{\eRule{b}{$\sigma$}{\textbf{true}} \quad \eRule{c}{$\sigma$}{$\sigma ^{'}$} \quad \eRelation{$\cdots$ (derivation tree of height h)}{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma ^{'}$}{$\sigma ^{''}$}}}
 				{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{''}$}}
 		\end{center}
-		\indent\indent By Induction Hypothesis \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma ^{'}$}{$\sigma ^{''}$} implies \eRule{b}{$\sigma ^{'}$}{\textbf{false}}.\\
+		\indent\indent By Induction Hypothesis \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma ^{'}$}{$\sigma ^{''}$} implies\\\indent \eRule{b}{$\sigma ^{'}$}{\textbf{false}}.\\
 		\indent Due to the propagating characteristics of the derivation trees we also know \indent that \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{''}$} implies \eRule{b}{$\sigma ^{''}$}{false}. \qquad $\blacksquare$
 	\section*{Task 4: Variables that do not matter}
 	
@@ -182,7 +177,7 @@
 	\indent \textbf{case:} $c=\text{\textbf{skip}}$\\
 	\indent\indent This case is trivial due to the definition of \textbf{mod} and that the empty set is \indent\indent identical in any two arbitrary but fixed states $\sigma_{1}$ and $\sigma_{2}$.\\\\
 	\indent \textbf{case:} $c=$ {\boldmath$x:=a$}\\
-	\indent\indent Following the definitions of \textbf{dep} and \textbf{mod} we get $\Mod(c)=\left\lbrace x\right\rbrace$ and \indent\indent $\dep(c)=\FV(a)$.\\\\
+	\indent\indent Following the definitions of \textbf{dep} and \textbf{mod} we get $\Mod(c)=\left\lbrace x\right\rbrace$ and \\\indent\indent $\dep(c)=\FV(a)$.\\\\
 	\indent\indent Furthermore we have
 	\begin{center}
 		\eRelation
@@ -197,6 +192,8 @@
 		$\sigma_{1} =_\dep(c) \sigma_{2}$, $\left\langle c,\; \sigma_{1} \right\rangle \rightarrow \sigma^{'}_{1}$ and $\left\langle c, \; \sigma_{2}\right\rangle \rightarrow \sigma^{'}_{2}$ imply that $\sigma^{'}_{1} =_\Mod(c)\sigma^{'}_{2}$
 	\end{center}
 	\indent\indent holds for all derivations of an arbitrary, but fixed height h and for all states \indent$\sigma,\; \sigma^{'}$.
+	
+\newpage	
 	
 	\subsubsection*{\underline{Induction Step: ({\boldmath$h\mapsto h+1$})}}
 	

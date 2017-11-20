@@ -1,7 +1,7 @@
 \documentclass[12pt]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
-\usepackage[T1]{fontenc}
+%\usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -9,13 +9,15 @@
 \usepackage{ebproof}
 \usepackage{pdflscape}
 
+
+
 \newcommand{\eRelation}[2]{$\dfrac{\text{#1}}{\text{#2}}$}
 \newcommand{\eState}[2]{$\left\langle \text{#1},\; \text{#2}\right\rangle$}
 \newcommand{\eRule}[3]{\eState{#1}{#2} $\rightarrow$ #3}
 
 \newcommand{\lbr}{[\![}
 \newcommand{\rbr}{]\!]}
-\newcommand{\T}{\mathfrak{T}}
+\newcommand{\Tf}{\mathfrak{T}}
 \newcommand{\lo}{\text{\textbf{loop}}}
 \newcommand{\beg}{\text{\textbf{begin}}}
 \newcommand{\en}{\text{\textbf{end}}}
@@ -53,7 +55,7 @@
 	\section*{Task 2: Translation of Statements}
 
 		\begin{center}
-			$\T_{c}\lbr\rep\;c\;\un\;b\rbr =\T_{c}\lbr c\rbr ;\;\T_{b}\lbr b\rbr ;\; \jmpf\left(-|\T_{c}\lbr c\rbr |+|\T_{b}\lbr b\rbr |\right)$
+			$\Tf_{c}\lbr\rep\;c\;\un\;b\rbr =\Tf_{c}\lbr c\rbr ;\;\Tf_{b}\lbr b\rbr ;\; \jmpf\left(-|\Tf_{c}\lbr c\rbr |+|\Tf_{b}\lbr b\rbr |\right)$
 		\end{center}
 		
 	\section*{Task 3: loop Loops}
@@ -85,7 +87,7 @@
 	\subsection*{(b)}
 	
 	\begin{flalign}
-		\nonumber & \T_{c}\lbr \lo\; x\;\beg\; c\;\en\rbr=\loa (x);\; \sto (\xi);\\ \nonumber & \loa (\xi);\; \pus (0);\; \gt ;\; \jmpf (|\T_{c}\lbr c\rbr |+6);\\ \nonumber & \T_{c}\lbr c\rbr ;\; \loa (\xi);\; \pus (1);\; \sub ;\; \sto (\xi);\; \jmp (-(|\T_{c}\lbr c\rbr | + 8))
+		\nonumber & \Tf_{c}\lbr \lo\; x\;\beg\; c\;\en\rbr=\loa (x);\; \sto (\xi);\\ \nonumber & \loa (\xi);\; \pus (0);\; \gt ;\; \jmpf (|\Tf_{c}\lbr c\rbr |+6);\\ \nonumber & \Tf_{c}\lbr c\rbr ;\; \loa (\xi);\; \pus (1);\; \sub ;\; \sto (\xi);\; \jmp (-(|\Tf_{c}\lbr c\rbr | + 8))
 	\end{flalign}
 	
 \end{document}
