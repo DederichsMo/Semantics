@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{color}
 \usepackage{ebproof}
 \usepackage{pdflscape}
@@ -138,13 +139,20 @@
 		\indent\indent holds for all derivations of an arbitrary, but fixed height h and for all states \indent$\sigma , \; \sigma ^{'}$.\\
 		\subsection*{\underline{Induction Step: ({\boldmath$h\mapsto h+1$})}}
 		\indent\indent For all derivations of height $h+1$ ($h\geq 1$), we have\\
-		\begin{center}
-			\eRelation
-				{\eRule{b}{$\sigma$}{\textbf{true}} \quad \eRule{c}{$\sigma$}{$\sigma ^{'}$} \quad \eRelation{$\cdots$ (derivation tree of height h)}{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma ^{'}$}{$\sigma ^{''}$}}}
-				{\eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{''}$}}
+		\begin{center}		
+		\begin{prooftree}
+			\hypo{\left\langle b,\;\sigma \right\rangle\rightarrow \text{\textbf{true}}}
+			\hypo{\left\langle c,\;\sigma\right\rangle\rightarrow\sigma^{'}}
+			\hypo{\cdots \text{(derivation tree of height h)}}
+			\infer1{\left\langle\text{\textbf{while}}\; b\;\text{\textbf{do}}\; c\;\text{\textbf{end}},\;\sigma^{'}\right\rangle\rightarrow\sigma^{''}}
+			\infer3{\left\langle\text{\textbf{while}}\; b\;\text{\textbf{do}}\; c\;\text{\textbf{end}},\;\sigma\right\rangle\rightarrow\sigma^{''}}
+		\end{prooftree}\\
 		\end{center}
 		\indent\indent By Induction Hypothesis \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma ^{'}$}{$\sigma ^{''}$} implies\\\indent \eRule{b}{$\sigma ^{'}$}{\textbf{false}}.\\
-		\indent Due to the propagating characteristics of the derivation trees we also know \indent that \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{''}$} implies \eRule{b}{$\sigma ^{''}$}{false}. \qquad $\blacksquare$
+		\indent Due to the propagating characteristics of the derivation trees we also know \indent that \eRule{\textbf{while} b \textbf{do} c \textbf{end}}{$\sigma$}{$\sigma ^{''}$} implies \eRule{b}{$\sigma ^{''}$}{$\text{\textbf{false}}$}. 
+		\begin{flushright}
+			$\qed$
+		\end{flushright}
 	\section*{Task 4: Variables that do not matter}
 	
 	\subsection*{(a)}
@@ -169,7 +177,7 @@
 	\indent\indent $\bullet$ \quad $\sigma_{1} =_\dep(c) \sigma_{2}$\\
 	\indent\indent $\bullet$ \quad $\left\langle c,\; \sigma_{1} \right\rangle \rightarrow \sigma^{'}_{1}$ and\\
 	\indent\indent $\bullet$ \quad $\left\langle c, \; \sigma_{2}\right\rangle \rightarrow \sigma^{'}_{2}$\\
-	\indent that $\sigma^{'}_{1} =_\Mod(c)\sigma^{'}_{2}$.\\
+	\indent that $\sigma^{'}_{1} =_{\Mod(c)}\sigma^{'}_{2}$.\\
 	\indent This will be shown by induction on the height h of derivation trees.\\\\
 	\subsubsection*{\underline{Induction Base: (h=1)}}
 	
@@ -189,7 +197,7 @@
 	\subsubsection*{\underline{Induction Hypothesis:}}
 	
 	\begin{center}
-		$\sigma_{1} =_\dep(c) \sigma_{2}$, $\left\langle c,\; \sigma_{1} \right\rangle \rightarrow \sigma^{'}_{1}$ and $\left\langle c, \; \sigma_{2}\right\rangle \rightarrow \sigma^{'}_{2}$ imply that $\sigma^{'}_{1} =_\Mod(c)\sigma^{'}_{2}$
+		$\sigma_{1} =_{\dep(c)} \sigma_{2}$, $\left\langle c,\; \sigma_{1} \right\rangle \rightarrow \sigma^{'}_{1}$ and $\left\langle c, \; \sigma_{2}\right\rangle \rightarrow \sigma^{'}_{2}$ imply that $\sigma^{'}_{1} =_{\Mod(c)}\sigma^{'}_{2}$
 	\end{center}
 	\indent\indent holds for all derivations of an arbitrary, but fixed height h and for all states \indent$\sigma,\; \sigma^{'}$.
 	
@@ -236,5 +244,24 @@
 			\infer2[]{\left\langle \text{\textbf{repeat}}\; c^{'}\; \text{\textbf{until}}\; b, \sigma_{i} \right\rangle \rightarrow \sigma_{i}^{*}}
 		\end{prooftree}
 	\end{center}
+	
+	\indent\indent Since $\sigma^{*}_{1}=_{\text{\textbf{dep}}(c)\cup\text{\textbf{mod}}(c^{'})}\sigma^{*}_{2}$ (By induction hypothesis and auxiliary (a)),\\\indent\indent $\sigma^{*}_{1}=_{\text{\textbf{mod}}(c)}\sigma^{*}_{2}$ holds as well ($\textbf{mod}(c)=\textbf{mod}(c^{'})$).\\\\
+	\indent\indent Now assume that \eRule{$b$}{$\sigma^{*}_{i}$}{$\text{\textbf{false}}$}.\\
+	\indent\indent This leads to the following derivation tree:
+	\begin{center}
+		\begin{prooftree}
+			\hypo{\left\langle c,\; \sigma_{i}\right\rangle\rightarrow\sigma^{*}_{i}}
+			\hypo{\left\langle b,\; \sigma^{*}_{i}\right\rangle\rightarrow\text{\textbf{false}}}
+			\hypo{\cdots}
+			\infer1{\left\langle \text{\textbf{repeat}}\; c^{'}\; \text{\textbf{until}}\; b,\; \sigma^{*}_{i}\right\rangle\rightarrow\sigma^{'}_{i}}
+			\infer3{\left\langle \text{\textbf{repeat}}\; c^{'}\; \text{\textbf{until}}\; b,\; \sigma_{i}\right\rangle\rightarrow\sigma^{'}_{i}}
+		\end{prooftree}
+	\end{center}
+	
+	\indent\indent In order to prove that $\sigma^{'}_{1}=_{\text{\textbf{mod}}(c)}\sigma^{'}_{2}$ we show that $\sigma^{*}_{1}=_{\dep(c)}\sigma^{*}_{2}$.\\\indent\indent The induction hypothesis can than be utilised to prove that $\sigma^{'}_{1}=_{\Mod(c)}\sigma^{'}_{2}$.\\
+	\indent\indent By induction hypothesis and auxiliary (a) we get that $\sigma^{*}_{1}=_{\dep(c)\verb|\|\Mod(c^{'})}\sigma^{*}_{2}$. \indent\indent Since the induction hypothesis also states that $\sigma^{*}_{1}=_{\Mod(c^{'})}\sigma^{*}_{2}$ we also get that \indent\indent $\sigma^{*}_{1}=_{\dep(c)}\sigma^{*}_{2}$. Therefore we get that $\sigma^{'}_{1}=_{\Mod(c)}\sigma^{'}_{2}$ by induction hypothesis.
+	\begin{flushright}
+	$\qed$
+	\end{flushright}
 	
 \end{document}

@@ -44,13 +44,86 @@
 
 	\section*{Task 1: Operational Equivalence}
 	
-	\indent\indent Prove or disprove:\\
+	\indent\indent Prove or disprove:
 	\begin{center}
 		$\text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b \sim c;\; \text{\textbf{while}}\; b\; \text{\textbf{do}}\; c\; \text{\textbf{end}}$
 	\end{center}
 	\indent\indent The claim will be disproved using a counter example.\\\\
 	\indent Lets assume $b:=\text{\textbf{true}}$ and $c:=\text{\textbf{skip}}$.\\
 	\indent The \textbf{repeat} statement will terminate after the first iteration with\\\indent \eRule{$\text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b$}{$\sigma$}{$\sigma$} while the \textbf{while} statement will never terminate as \indent its condition is always satisfied.
+	
+	\rule{17cm}{0.4pt}\vspace{1cm}
+	
+	\indent Prove or disprove:
+	\begin{center}
+		$\underbrace{\text{\textbf{repeat}}\; c\; \text{\textbf{until}}\; b}_{=r} \sim c;\;\underbrace{\text{\textbf{while}}\; \neg b\; \text{\textbf{do}}\; c\; \text{\textbf{end}}}_{=w}$
+	\end{center}
+	
+	\indent To prove this statement we claim that\\\indent $\left\langle r,\; \sigma\right\rangle\rightarrow\sigma^{'}\Leftrightarrow\left\langle c;\; w,\; \sigma\right\rangle\rightarrow\sigma^{'}$\\\\
+	\indent $"\Rightarrow"$\\
+	\indent\indent Proof by induction on the structure of proof trees\\\indent\indent $\left\langle \rep\; c\; \un\; b,\; \sigma\right\rangle\rightarrow\sigma^{'}$
+	
+	\subsection*{\quad Induction Base: {\boldmath ($b=\text{\textbf{true}}$)}}
+		
+	\begin{center}
+		\begin{prooftree}
+			\hypo{\cdots}
+			\infer1{\left\langle c,\;\sigma\right\rangle\rightarrow\sigma^{'}}
+			\hypo{\cdots}
+			\infer1{\left\langle b,\;\sigma1^{'}\right\rangle\rightarrow\text{\textbf{true}}}
+			\infer2[\small{(repeat-true)}]{\left\langle r,\;\sigma\right\rangle\rightarrow\sigma^{'}}
+		\end{prooftree}
+	\end{center}
+	
+	\indent\indent Applying this assignment to the \textbf{while}-sequence we receive:
+	
+	\begin{center}
+		\begin{prooftree}
+			\hypo{\left\langle c,\;\sigma\right\rangle\rightarrow\sigma^{'}}
+			\hypo{\left\langle b,\;\sigma^{'}\right\rangle\rightarrow\text{\textbf{true}}}
+			\infer1{\left\langle \neg b,\;\sigma^{'}\right\rangle\rightarrow\text{\textbf{false}}}
+			\infer1[\small{(while-false)}]{\left\langle w,\;\sigma^{'}\right\rangle\rightarrow\sigma^{'}}
+			\infer2[\small{(seq)}]{\left\langle c;\; w,\;\sigma\right\rangle\rightarrow\sigma^{'}}
+		\end{prooftree}
+	\end{center}
+	
+	Thus the claim holds if $b=\text{\textbf{true}}$.
+	
+	\subsection*{\quad Induction Hypothesis:}
+	
+	\indent\indent\indent $\left\langle r,\;\sigma^{'}\right\rangle\rightarrow\sigma^{''}\Rightarrow\left\langle c;\; w,\;\sigma^{'}\right\rangle\rightarrow\sigma^{''}$ holds.
+	
+	\subsection*{\quad Induction step: {\boldmath ($b=\text{\textbf{false}}$)}}
+	
+	\begin{center}
+		\begin{prooftree}
+			\hypo{\small{\text{\textbf{assumption}}}}
+			\infer1{\left\langle c,\; \sigma\right\rangle\rightarrow\sigma^{'}}
+			\hypo{\left\langle b,\; \sigma^{'}\right\rangle\rightarrow\text{\textbf{false}}}
+			\hypo{\small{\text{\textbf{by assumption}}}}
+			\infer1{\left\langle r,\; \sigma^{'}\right\rangle\rightarrow\sigma^{''}}
+			\infer3[\small{(repeat-false)}]{\left\langle r,\; \sigma\right\rangle\rightarrow\sigma^{''}}
+		\end{prooftree}
+	\end{center}
+	
+	\indent\indent Applying the same assignment to the \textbf{while}-sequence we receive:
+	
+	\begin{center}
+		\begin{prooftree}
+			\hypo{\small{\text{\textbf{assumption}}}}
+			\infer1{\left\langle c,\; \sigma\right\rangle\rightarrow\sigma^{'}}
+			\hypo{\left\langle b,\; \sigma^{'}\right\rangle\rightarrow\text{\textbf{false}}}
+			\infer1{\left\langle \neg b,\; \sigma^{'}\right\rangle\rightarrow\text{\textbf{true}}}
+			\hypo{\text{\textbf{I.H.}}}
+			\infer1{\left\langle c;\; w,\; \sigma^{'}\right\rangle\rightarrow\sigma^{''}}
+			\infer1[!]{\left\langle c,\; \sigma^{'}\right\rangle\rightarrow\sigma^{'''} \quad \left\langle w,\; \sigma^{'''}\right\rangle\rightarrow\sigma^{''}}
+			\infer2{\left\langle w,\; \sigma^{'}\right\rangle\rightarrow\sigma^{''}}
+			\infer2{\left\langle c;\; w,\; \sigma\right\rangle\rightarrow\sigma^{''}}
+		\end{prooftree}
+	\end{center}
+	
+	\indent\indent Thus the claim also holds for $b=\text{\textbf{false}}$.\\\\
+	\indent $"\Leftarrow"$ analogously.
 	
 	\section*{Task 2: Translation of Statements}
 
