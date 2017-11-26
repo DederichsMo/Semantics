@@ -1,0 +1,67 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+%\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{ebproof}
+\usepackage{pdflscape}
+
+
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\begin{document}
+
+\begin{center}
+	\huge\textbf{Exersice Sheet 4}\\[0.5cm]
+	
+	\Large
+	$\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$ \textbf{Sample 				Solution} $\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$\\[1cm]
+\end{center}
+	\large
+
+	\section*{Task 1: Chain Complete Partial Orders}
+		\subsection*{(a): \underline{TRUE}}
+		\begin{enumerate}
+			\item[] Let $d\sqsubseteq_{1}d'$. Then $\left\{d,\;d'\right\}$ is a chain.\\
+			Thus $f\left(d'\right)=f\underbrace{\left(\sqcup_{1}\left\{d,\;d'\right\}\right)}_{=d'}\overset{f\; \text{continous}}{=}\sqcup_{2}\left\{f\left(d\right),\;f\left(d'\right)\right\}\overset{\text{def. L.U.B}}{\sqsupset_{2}}f\left(d\right)$.\\
+			Therefore $f\left(d\right)\sqsubset_{2}f\left(d'\right)$ holds.\\
+			Alternatively: True by Definition 7.15.
+		\end{enumerate}
+		
+		\subsection*{(b): \underline{FALSE}}
+		\begin{enumerate}
+			\item[] Let $S=\left\{x\in\mathbb{Q}\; |\; x\leq\sqrt{2}\right\}$.\\
+			Then $S$ is a chain, but $\sqcup S=\sqrt{2}\not\in \mathbb{Q}$.
+		\end{enumerate}
+		
+		\subsection*{(c): \underline{FALSE}}
+		\begin{enumerate}
+			\item[] Let $\left(D_{1},\; \sqsubseteq\right)=\left(\mathbb{N}\cup\left\{\infty\right\},\;\leq\right)$ and\\
+			$f:\;D_{1}\rightarrow D_{1},\; x\mapsto\left\{
+			\begin{aligned}
+				0, &\qquad x<\infty\\
+				\infty &\qquad x=\infty			
+			\end{aligned}\right.$.\\
+			$f$ is monotonic, because $x\leq y\Rightarrow f\left(x\right)=\left\{\begin{aligned}
+			0 &\quad \leq f\left(y\right) &\qquad \text{if}\; x<\infty\\
+			\infty &\quad \leq f\left(y\right) &\qquad \text{if}\; x=y=\infty
+			\end{aligned}\right.$.\\
+			However, $\underbrace{f\left(\sqcup\mathbb{N}\right)}_{=\infty}\nleq\underbrace{\sqcup f\left(\mathbb{N}\right)}_{=0}$.
+		\end{enumerate}
+		
+		\subsection*{(d): \underline{TRUE}}
+		\begin{enumerate}
+			\item[] Since $f\left(p\right)\sqsubseteq p$, it suffices to prove $p\sqsubseteq f\left(p\right)$.\\
+			First note that $f\left(p\right)$ implies $f\left(f\left(p\right)\right)\sqsubseteq f\left(p\right)$ \null\hfill {\color{red}$\left(f\left(p\right)=p'\right)$}\\
+			Since $p$ is the least element with $f\left(p\right)\sqsubseteq p$, we have $p\sqsubseteq p'=f\left(p\right)$.\\
+			Thus $p=f\left(p\right)$ holds.
+		\end{enumerate}		
+	\section*{Task 2: repeat-until Loops}
+	
+	\section*{Task 3: Closed Sets}
+	
+	
+\end{document}
