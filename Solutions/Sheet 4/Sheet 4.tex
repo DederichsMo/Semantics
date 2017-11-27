@@ -1,15 +1,15 @@
 \documentclass[12pt]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
-%\usepackage[T1]{fontenc}
-\usepackage{amsmath}
+\usepackage[fleqn]{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{color}
 \usepackage{ebproof}
 \usepackage{pdflscape}
 
-
+\newcommand{\lbr}{[\![}
+\newcommand{\rbr}{]\!]}
 
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \begin{document}
@@ -60,8 +60,69 @@
 			Thus $p=f\left(p\right)$ holds.
 		\end{enumerate}		
 	\section*{Task 2: repeat-until Loops}
+	\subsection*{(a)}
+	
+	\begin{enumerate}
+	\item[] 
+		\begin{equation*}		
+		\begin{split}
+			  & \mathfrak{C}\lbr \text{repeat}\;c\;\text{until}\;b\rbr\\
+			= & \mathfrak{C}\lbr c;\;\text{if}\; b\; \text{then}\;\text{skip}\; \text{else}\; \text{repeat}\; c\;\text{until}\; b\rbr\\
+			= & \mathfrak{C}\lbr \text{if}\; b\; \text{then}\;\text{skip}\; \text{else}\; \text{repeat}\; c\;\text{until}\; b\rbr \circ \mathfrak{C}\lbr c\rbr\\
+			= & \text{cond}\left( \mathfrak{B}\lbr b\rbr ,\; \mathfrak{C} \lbr \text{skip}\rbr ,\; \mathfrak{C}\lbr \text{repeat}\;c\; \text{until}\; b\rbr \right) \circ \mathfrak{C}\lbr c\rbr\\
+			= & \text{cond}\left( \mathfrak{B}\lbr b\rbr ,\; id_\Sigma ,\; \mathfrak{C}\lbr \text{repeat}\;c\; \text{until}\; b\rbr \right) \circ \mathfrak{C}\lbr c\rbr\\
+		\end{split}
+		\end{equation*}
+		
+		Then $\mathfrak{C}\lbr \text{repeat}\;c\; \text{until}\; b\rbr$ is the least fixed point of F given by:
+		\begin{equation*}
+		F\left( f \right) = \text{cond}\left( \mathfrak{B}\lbr b\rbr ,\; id_\Sigma ,\; \mathfrak{C}\lbr \text{repeat}\;c\; \text{until}\; b\rbr \right) \circ \mathfrak{C}\lbr c\rbr
+		\end{equation*}	
+	\end{enumerate}
+	
+	\subsection*{(b)}
+	
+	\begin{enumerate}
+	\item[] 
+		\begin{equation*}
+		\begin{split}
+			\hat{F}\left(f\right) & =\text{cond}\left( \mathfrak{B}\lbr \text{false}\rbr ,\; id_\Sigma ,\; f \right) \circ \mathfrak{C}\lbr \text{skip}\rbr\\
+			& = f \circ \mathfrak{C}\lbr \text{skip}\\
+			& = f \circ id_\Sigma\\
+			& = f
+		\end{split}
+		\end{equation*}
+		$\hat{F}$ is the identity transformer.
+	\end{enumerate}		
+	
+	\subsection*{(c)}
+	
+	\begin{enumerate}
+	\item[] Since $\hat{F}\left(f\right)=f$ for all $f:\Sigma \dashrightarrow \Sigma$ and $f_{\emptyset}\sqsubseteq f$ for all $f:\Sigma\dashrightarrow \Sigma$, we have $\text{fix}\left(\hat{F}\right)=f_{\emptyset}$
+	
+	\end{enumerate}
 	
 	\section*{Task 3: Closed Sets}
 	
+	\subsection*{(a)}
+	
+	\begin{enumerate}
+	\item[] Apply Tarski-Knaster Theorem:
+	\[\text{fix}\left(f\right)=\sqcup\left\{f^{n}\left(\sqcup\emptyset\right)|n\geq 0\right\}\]
+	Since $\emptyset$ is a chain and $\emptyset\subseteq C$, we have $\sqcup\emptyset\in C$.\\
+	By definition, $f\left(\sqcup\emptyset\right)\in C$.\\
+	By complete induction, $\forall n.f^{n}\left(\sqcup\emptyset\right)\in C$.\\
+	Hence, $G=\left\{f^{n}\left(\sqcup\emptyset\right)|n\geq 0\right\}\subseteq C$ is a chain.\\
+	By definition, $\text{fix}\left(f\right)=\sqcup G\in C$.
+	\end{enumerate}
+	
+	\subsection*{(b)}
+	
+	\begin{enumerate}
+	\item[] Let $C:=\left\{y\in D|y\sqsubseteq x\right\}$. C is closed.\\
+	If $y\in D$ then $f\left(y\right)\sqsubseteq f\left(x\right)\sqsubseteq x$.\\
+	Thus $f\left(y\right)\in C$. By (a), $\text{fix}\left(f\right)\in C$.\\
+	By definition of $C$, $\text{fix}\left(f\right)\sqsubseteq x$.
+	\end{enumerate}
 	
 \end{document}
