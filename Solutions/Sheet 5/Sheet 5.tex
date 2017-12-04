@@ -17,6 +17,8 @@
 
 \newcommand{\sqcupeq}{\rotatebox[origin=c]{90}{$\sqsubseteq$}}
 
+\def\sqsupsetneq{\mathrel{\sqsupseteq\kern-0.92em\raise-0.15em\hbox{\rotatebox{313}{\scalebox{1.1}[0.75]{\(\shortmid\)}}}\scalebox{0.3}[1]{\ }}}
+
 \newcommand\encircle[1]{
   \tikz[baseline=(X.base)] 
     \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
@@ -119,6 +121,53 @@
 	\end{enumerate}
 			
 	\section*{Task 2: Tarski-Kantorovich Principle}
+	
+	\begin{enumerate}
+	\item[] Prove or disprove: Let $\left(D,\; \sqsubseteq\right)$ be a CCPO and let $F:\; D\rightarrow D$ be continuous. Moreover, let $d\in D$, such that $d\sqsubseteq F\left(d\right)$.\\
+	Then $F$ has at least one fixpoint larger than $d$ and the least of those fixpoints is given by\\
+	\begin{center} $\sqcup\left\{F^{n}\left(d\right)|n\in\mathbb{N}\right\}$\\[1cm]\end{center}
+	
+	\item[] We disprove this assumption by specifying a counterexample.\\
+	We define $F$ in such a way that $d=F\left(d\right)$ but $d\neq \text{fix}\left(F\right)$.\\
+	Utilising Tarski-Knaster and the definition of this partial order we get $d\sqsubseteq F\left(d\right)$ and $\sqcup\left\{F^{n}\left(d\right)|n\in\mathbb{N}\right\}=d\sqsupsetneq d$. \Lightning	
+	\end{enumerate}
+
+	\rule{18cm}{0.4pt}\vspace{1cm}
+
+	\begin{enumerate}
+	\item[] Prove or disprove: Let $\left(D,\; \sqsubseteq\right)$ be a CCPO and let $F:\; D\rightarrow D$ be continuous. Moreover, let $d\in D$, such that $d\sqsubseteq F\left(d\right)$.\\
+	Then $F$ has at least one fixpoint larger or equal than $d$ and the least of those fixpoints is given by\\
+	\begin{center} $\sqcup\left\{F^{n}\left(d\right)|n\in\mathbb{N}\right\}$\end{center}
+	
+	\item[] Let $\hat{d}:=\sqcup \left\{F^{n}\left(d\right)|n\in\mathbb{N}\right\}$.\\
+	$\hat{d}$ exists, since $d\sqsubseteq F\left(d\right) \sqsubseteq F^{2}\left(d\right)\sqsubseteq \cdots$ is a chain and $D$ is a CCPO.\\
+	
+	$\hat{d}$ is a fixpoint since\\[0.5cm]
+		\hspace*{0.5cm}\begin{tabular}{ccll}
+		$F\left(\hat{d}\right)$ & $=$ & $F\left(\sqcup\left\{F^{n}\left(d\right)n\in\mathbb{N}\right\}\right)$ & \\
+		& $=$ & $\sqcup\left\{F^{n+1}\left(d\right)|n\in\mathbb{N}\right\}$ & $|$ by continuity of $F$\\
+		& $=$ & $\sqcup\left\{F^{n}\left(d\right)|n\in\mathbb{N}\right\}$ & $|$ $d\sqsubseteq F\left(d\right)$\\
+		& $=$ & $\hat{d}$ &\\
+		\end{tabular}\\[0.5cm]
+		$\hat{d}$ is least fixpoint ``above'' d\\
+		\hspace*{0.5cm}Let x be another fixpoint ``above'' d ``smaller'' than $\hat{d}$, i.e.\\[0.5cm]
+		\hspace*{1cm}\begin{tabular}{cl}
+		$\left(1\right)$ & $f\left(x\right)=x$\\
+		$\left(2\right)$ & $d\sqsubseteq x$\\
+		$\left(3\right)$ & $x\sqsubseteq\hat{d}$\\
+		\end{tabular}\\[0.5cm]
+		
+		\hspace*{0.5cm}\underline{But:}\\
+		\hspace*{1cm}\begin{tabular}{ccll}
+		$d\sqsubseteq x$ & $\Rightarrow$ & $F\left(d\right)\sqsubseteq F\left(x\right)$ & $|$ $F$ monoton\\
+		& $\Rightarrow$ & $\forall n\in\mathbb{N}\; \left(F^{n}\left(d\right)\sqsubseteq F^{n}\left(x\right)\right)$ & $|$\\
+		& $\Rightarrow$ & $\sqcup\left\{F^{n}\left(d\right)|n\in\mathbb{N}\right\}\sqsubseteq\sqcup\left\{F^{n}\left(x\right)|n\in\mathbb{N}\right\}$ &\\
+		& $\Rightarrow$ & $\hat{d}\sqsubseteq\sqcup\left\{F^{n}\left(x\right)|n\in\mathbb{N}\right\}$ &\\
+		& $\Rightarrow$ & $\hat{d}\sqsubseteq\sqcup\left\{x|n\in\mathbb{N}\right\}=\left\{x\right\}$ & $|$ by $\left(1\right)$\\
+		& $\Rightarrow$ & $\hat{d}\sqsubseteq x$ &\\
+		& $\Rightarrow$ & $\hat{d}=x$ & \parbox[t]{5cm}{$|$ by $\left(3\right)$ and\\ anti-symmetry of\\ CCPO}\\
+		\end{tabular}\\[0.5cm]
+	\end{enumerate}
 
 	\section*{Task 3: Complete Lattice}
 
