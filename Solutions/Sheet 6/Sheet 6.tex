@@ -1,0 +1,254 @@
+\documentclass[12pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[fleqn]{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{ebproof}
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{ebproof}
+
+\newcommand{\lbr}{[\![}
+\newcommand{\rbr}{]\!]}
+
+\newcommand{\sqcupeq}{\rotatebox[origin=c]{90}{$\sqsubseteq$}}
+
+\def\sqsupsetneq{\mathrel{\sqsupseteq\kern-0.92em\raise-0.15em\hbox{\rotatebox{313}{\scalebox{1.1}[0.75]{\(\shortmid\)}}}\scalebox{0.3}[1]{\ }}}
+
+\newcommand\encircle[1]{
+  \tikz[baseline=(X.base)] 
+    \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\begin{document}
+
+\begin{center}
+	\huge\textbf{Exersice Sheet 6}\\[0.5cm]
+	
+	\Large
+	$\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$ \textbf{Sample 				Solution} $\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$\\[1cm]
+\end{center}
+	\large
+
+	\section*{Task 1: Partial Correctness Properties}
+	
+	\subsection*{(a)}
+	
+	\begin{enumerate}
+	\item[] The required partial correctness property is
+	\begin{center}
+		$\left\{n>2\wedge\text{even}\left(n\right)\right\}c\left\{\exists q,p.\;n=q+p\wedge \text{prime}\left(q\right)\wedge\text{prime}\left(p\right)\right\}$\\
+	\end{center}
+	Where $\text{even}\left(n\right)$ and $\text{prime}\left(n\right)$ are defined as follows:
+	\begin{enumerate}
+		\item[-] $\text{even}\left(n\right)=\exists z.\;n=2\cdot z$
+		\item[-] $\text{prime}\left(n\right)=n>1\wedge\forall k.\;\underbrace{\left(\exists l.\;l\geq 1\wedge n=k\cdot l\right)}_{``k\; \text{is divisor of}\; n''}\rightarrow\left(k=1\vee k=n\right)$	
+	\end{enumerate}
+	\end{enumerate}
+	
+	\subsection*{(b)}
+	
+	\begin{enumerate}
+	\item[] The existence of a suitable program $c$ does \underline{not} imply Goldbach's conjecture, as the postcondition is only fulfilled if $c$ terminates which is not guaranteed by partial correctness.
+	\end{enumerate}
+	
+	\section*{Task 2: Relative Completeness}
+	
+	\subsection*{(a)}
+	
+	\begin{enumerate}
+	\item[] \begin{tabular}{c|c}
+	Program $c$ & $wp\left(c,\;B\right)$\\\hline
+	$\text{skip}$ & $B$\\
+	$x:=a$ & $B[x\mapsto a]$\\
+	$c_{1};\;c_{2}$ & $wp\left(c_{1},\; wp\left(c_{2},\;B\right)\right)$\\
+	$\text{if}\;b\;\text{then}\;c_{1}\;\text{else}\;c_{2}$ & $\left(b\wedge wp\left(c_{1},\;B\right)\right)\vee \left(\neg b\wedge wp\left(c_{2},\;B\right)\right)$\\
+	$\text{while}\;b\;\text{do}\;c'$ & \parbox[t]{10cm}{$\left(\neg b\wedge B\right)\vee \left(b\wedge wp\left(c',\;wp\left(\text{while}\;b\;\text{do}\;c',\;B\right)\right)\right)$\\
+	\begin{tabular}{rl}
+	$\equiv$ & $\bigwedge\limits_{i\in \mathbb{N}}F_{i}$, where\\
+			 & $F_{i+1}=\left(\neg b\wedge B\right)\vee \left( b\wedge wp\left(F_{i},\;B\right)\right)$ and\\
+			 & $F_{0}=\text{true}$\\
+	\end{tabular}}
+	\end{tabular}
+	\end{enumerate}
+
+	\subsection*{(b)}
+	
+	\begin{enumerate}
+	\item[] We will proof by induction on the structure of the syntax of c that the Hoare logic is relatively complete.\\
+	
+	\textbf{\underline{Induction Base:}}\\
+	\begin{enumerate}
+	\item[] $\underline{c\triangleq \text{skip}}$\qquad Trivial by the 	rule\\
+		\begin{center}
+		\normalsize
+		\begin{prooftree}
+		\infer0[\small{(skip)}]{\left\{B\right\}\text{skip}\left\{B\right\}}
+		\end{prooftree}
+		\end{center}
+		\hspace*{0pt}\\
+	\item[] $\underline{c\triangleq c:=a}$\qquad Trivial by the rule\\
+	\begin{center}
+	\normalsize
+	\begin{prooftree}
+	\infer0[\small(asgn)]{\underbrace{\left\{B\left[x\mapsto a\right]\right\}}_{wp\left(x:=a,\;B\right)}x:=a\left\{B\right\}}
+	\end{prooftree}
+	\end{center}
+	\end{enumerate}
+	\hspace*{0pt}\\[1cm]
+	\textbf{\underline{Induction Hypothesis:}}\\
+	\begin{enumerate}
+	\item[] $\vdash\left\{wp\left(c,\;B\right)\right\}c\left\{B\right\}$ holds for any program c.
+	\end{enumerate}
+	\hspace*{0pt}\\[1cm]
+	\textbf{\underline{Induction Step:}}\\
+	\begin{enumerate}
+	\item[] $\underline{c\triangleq c_{1};\;c_{2}}$\\
+	\begin{enumerate}
+	\item[] By induction hypothesis, we know that $\vdash\left\{wp\left(c_{2},\;B\right)\right\}c_{2}\left\{B\right\}$ holds.\\
+	Furthermore, by induction hypothesis, we have\\$\vdash\underbrace{\left\{wp\left(c_{1},\;wp\left(c_{2},\;B\right)\right)\right\}}_{=wp\left(c_{1};\;c_{2},\;B\right)}c_{1}\left\{wp\left(c_{2},\;B\right)\right\}$.\\
+	
+	Then we obtain a proof using the (seq)-rule:\\
+	\begin{center}
+	\normalsize
+	\begin{prooftree}
+	\hypo{\left\{wp\left(c_{1};\;c_{2},\;B\right)\right\}c_{1}\left\{wp\left(c_{2},\;B\right)\right\}}
+	\hypo{\left\{wp\left(c_{2},\;B\right)\right\}c_{2}\left\{B\right\}}
+	\infer2[\small(seq)]{\left\{wp\left(c_{1};\;c_{2},\;B\right)\right\}c_{1};\;c_{2}\left\{B\right\}}
+	\end{prooftree}
+	\end{center}
+	\end{enumerate}
+	\newpage
+	\item[] $\underline{c\triangleq\text{if}\;b\;\text{then}\;c_{1}\;\text{else}\;c_{2}}$\\
+	\begin{enumerate}
+	\item[] By induction hypothesis, we have $\vdash\left\{wp\left(c_{1},\;B\right)\right\}c_{1}\left\{B\right\}$ and $\vdash\left\{wp\left(c_{2},\;B\right)\right\}c_{2}\left\{B\right\}$.\\
+	We then obtain the following proof:\\
+	\item[] \textcircled{$\ast$}
+	\begin{center}
+	\normalsize
+	\begin{prooftree}
+	\hypo{\models\left(\left(b\wedge wp\left(c,\;B\right)\right)\Rightarrow wp\left(c_{1},\;B\right)\right)}
+	\hypo{\vdash\left\{wp\left(c_{1},\;B\right)\right\}c_{1}\left\{B\right\}}
+	\hypo{\models\left(B\Rightarrow B\right)}
+	\infer3[\small(cons)]{\left\{b\wedge wp\left(c,\;B\right)\right\}c_{1}\left\{B\right\}}
+	\end{prooftree}		
+	\end{center}
+	\item[] \textcircled{$\ast\ast$}
+	\begin{center}
+	\normalsize
+	\begin{prooftree}
+	\hypo{\models\left(\left(\neg b\wedge wp\left(c,\;B\right)\right)\Rightarrow wp\left(c_{2},\;B\right)\right)}
+	\hypo{\vdash\left\{wp\left(c_{2},\;B\right)\right\}c_{2}\left\{B\right\}}
+	\hypo{\models\left(B\Rightarrow B\right)}
+	\infer3[\small(cons)]{\left\{\neg b\wedge wp\left(c,\;B\right)\right\}c_{2}\left\{B\right\}}
+	\end{prooftree}
+	\end{center}\hspace*{0pt}\\
+	\begin{center}
+	\normalsize
+	\begin{prooftree}
+	\hypo{\textcircled{$\ast$}}
+	\hypo{\textcircled{$\ast\ast$}}
+	\infer2[\small(if)]{\left\{wp\left(c,\;B\right)\right\}\text{if}\;b\;\text{then}\;c_{1}\;\text{else}\;c_{2}\left\{B\right\}}
+	\end{prooftree}
+	\end{center}
+	\end{enumerate}\hspace*{0pt}\\
+	\item[] $\underline{c\triangleq\text{while}\;b\;\text{do}\;c'}$\\
+	\begin{enumerate}
+	\item[] By induction hypothesis, we have $\vdash\left\{wp\left(c,\;A\right)\right\}c'\left\{A\right\}$ for any assertion A.\\
+	In particular, we may choose $A=wp\left(\text{while}\;b\;\text{do}\;c',\;B\right)$. Then\\
+	\textcircled{$\ast$}
+	\begin{center}
+	\normalsize
+	\begin{prooftree}	
+	\hypo{\models\left(A\wedge b\Rightarrow A\right)}
+	\hypo{\vdash\left\{wp\left(c',\;A\right)\right\}c'\left\{A\right\}}
+	\hypo{\models\left(A\Rightarrow A\right)}
+	\infer3[\small(cons)]{\left\{A\wedge b\right\}c'\left\{A\right\}}
+	\infer1[\small(while)]{\left\{A\right\}\text{while}\;b\;\text{do}\;c'\left\{A\wedge\neg b\right\}}
+	\end{prooftree}
+	\end{center}\hspace*{0pt}\\
+	\begin{center}
+	\begin{prooftree}
+	\hypo{\models\left(A\Rightarrow A\right)}
+	\hypo{\textcircled{$\ast$}}
+	\hypo{\models\left(\left(A\wedge\neg b\right)\Rightarrow B\right)}
+	\infer3[\small(cons)]{\left\{wp\left(\text{while}\;b\;\text{do}\;c',\;B\right)\right\}\text{while}\;b\;\text{do}\;c'\left\{B\right\}}
+	\end{prooftree}
+	\end{center}\hspace*{0pt}\\
+	\end{enumerate}
+	In each case we found a prove showing that $\vdash\left\{wp\left(c,\;B\right)\right\}c\left\{B\right\}$ holds.
+	\end{enumerate}
+	\end{enumerate}
+	
+	\section*{Task 3: Strongest Postconditions}
+	
+	\subsection*{(a)}
+	
+	\begin{enumerate}
+		\item[] Let $A,B\in Assn,\;I\in Int(\text{Interpretation})$.\\
+		Then the strongest postcondition can be defined as\\
+		\begin{center}
+			$ sp^{I}\lbr c,\;A\rbr=\bigcap\limits_{\models^{I}\left\{A\right\}c\left\{B\right\}} B^{I}=\left\{\sigma'\in\Sigma\; |\; \exists\sigma .\sigma\models^{I}A\wedge\mathfrak{C}\lbr c\rbr\sigma=\sigma'\right\}$
+		\end{center}
+	\end{enumerate}		
+	
+	\subsection*{(b)}
+	
+	\begin{enumerate}
+	\item[] \begin{tabular}{c|c}
+	Program $c$ & $sp\left(c,\;A\right)$\\\hline
+	$\text{skip}$ & $A$\\
+	$x:=a$ & $\exists z.\;\left(x=a\left[x\mapsto z\right]\right)\wedge A\left[x\mapsto z\right]$\\
+	$c_{1};\;c_{2}$ & $sp\left(c_{2},\;sp\left(c_{1},\;A\right)\right)$\\
+	$\text{if}\;b\;\text{then}\;c_{1}\;\text{else}\;c_{2}$ & $sp\left(c_{1},\; A\wedge b\right)\vee sp\left(c_{2},\;A\wedge\neg b\right)$\\
+	$\text{while}\;b\;\text{do}\;c'$ & \parbox[t]{10cm}{$sp\left(\text{while}\;b\;\text{do}\;c',\;sp\left(c',\;A\wedge b\right)\right)\vee\left(A\wedge\neg b\right)$\\
+	\begin{tabular}{rl}
+	$\equiv$ & $\bigwedge\limits_{i\in \mathbb{N}}F_{i}$, where\\
+			 & $F_{i+1}=\left(\neg b\rightarrow A\right)\wedge \left( b\rightarrow sp\left(c,\;F_{i}\right)\right)$ and\\
+			 & $F_{0}=\text{true}$\\
+	\end{tabular}}\\
+	\end{tabular}
+	\end{enumerate}
+	
+	\subsection*{(c)}
+	
+	\begin{enumerate}
+	\item[] 
+	\begin{tabular}{cl}
+	    & $sp\left(x:=2\cdot x;\;y:=x+2;\;z:=y+x,\;x=1\right)$\\
+	$=$ & $sp\left(y:=x+2;\;z:=y+x,\;sp\left(x:=2\cdot x,\;x=1\right)\right)$\\
+	$=$ & $sp\left(y:=x+2;\;z:=y+x,\;\exists z_{1}.\;\left(x:=\left(2\cdot x\right)\left[x\mapsto z_{1}\right]\right)\wedge \left(x=1\right)\left[x\mapsto z_{1}\right]\right)$\\
+	$=$ & $sp\left(y:=x+2;\;z:=y+x,\;\exists z_{1}.\;\left(x:=2\cdot z_{1}\right)\wedge \left(z_{1}=1\right)\right)$\\
+	$=$ & $sp\left(z:=y+x,\;sp\left(y:=x+2,\;\exists z_{1}.\;\left(x:=2\cdot z_{1}\right)\wedge \left(z_{1}=1\right)\right)\right)$\\
+	$=$ & \parbox[t]{10cm}{$sp\left(z:=y+x,\;\exists z_{2}.\;\left(y:=\left(x+2\right)\left[y\mapsto z_{2}\right]\right)\wedge\right.$\\$\left.\left(\exists z_{1}.\;\left(x:=2\cdot z_{1}\right)\wedge \left(z_{1}=1\right)\right)\left[y\mapsto z_{2}\right]\right)$}\\
+	$=$ & $sp\left(z:=y+x,\;\exists z_{2}.\;\left(y:=\left(x+2\right)\right)\wedge\left(\exists z_{1}.\;\left(x:=2\cdot z_{1}\right)\wedge \left(z_{1}=1\right)\right)\right)$\\
+	$=$ & \parbox[t]{10cm}{$\exists z_{3}.\;\left(z:=\left(y+x\right)\left[z\mapsto z_{3}\right]\right)\wedge$\\$\left(\exists z_{2}.\;\left(y:=\left(x+2\right)\right)\wedge\left(\exists z_{1}.\;\left(x:=2\cdot z_{1}\right)\wedge \left(z_{1}=1\right)\right)\right)\left[z\mapsto z_{3}\right]$}\\
+	$=$ & $\exists z_{3}.\;\left(z:=\left(y+x\right)\right)\wedge\left(\exists z_{2}.\;\left(y:=\left(x+2\right)\right)\wedge\left(\exists z_{1}.\;\left(x:=2\cdot z_{1}\right)\wedge \left(z_{1}=1\right)\right)\right)$
+	\end{tabular}
+	\end{enumerate}
+	\newpage
+	\subsection*{(d)}
+	
+	\begin{enumerate}
+	\item[] We first compute $wp^{I}\left(c,\;\text{false}\right)$ and $sp^{I}\left(c,\;\text{false}\right)$ for any $I\in Int$:\\
+	
+	$sp^{I}\left(c,\;\text{false}\right)=\left\{\sigma'\in\Sigma\; |\; \exists\sigma .\sigma\models^{I}\text{false}\wedge\mathfrak{C}\lbr c\rbr\sigma=\sigma'\right\}=\emptyset=\text{false}$\\
+	$wp^{I}\left(c,\;\text{false}\right)=\underbrace{\left\{\sigma\in\Sigma_{\bot}\; |\; \mathfrak{C}\lbr c\rbr\sigma\models^{I}\text{false}\right\}}_{=:A}$\\
+	
+	We then have to show that\\
+	
+	\begin{tabular}{cl}
+					  & $\models\left\{wp\left(c,\;sp\left(c,\;\text{false}\right)\right)\right\}c\left\{sp\left(c,\;wp\left(c,\;\text{false}\right)\right)\right\}$\\
+	$\Leftrightarrow$ & $\models\left\{wp\left(c,\;\text{false}\right)\right\}c\left\{sp\left(c,\;wp\left(c,\;\text{false}\right)\right)\right\}$\\
+	$\Leftrightarrow$ & $\models\left\{A\right\}c\left\{sp\left(c,\;A\right)\right\}$ \qquad (this is always true, see (a))\\
+	\end{tabular}\\
+	
+	Therefore, the statement is correct.
+	\end{enumerate}
+
+\end{document}
