@@ -1,0 +1,181 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{geometry}
+\geometry{a2paper, left=30pt, top=2cm, bottom=2cm}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[fleqn]{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{ebproof}
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{ebproof}
+
+\begin{document}
+
+\begin{center}
+	\huge\textbf{Exersice Sheet 7}\\[0.5cm]
+	
+	\Large
+	$\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$ \textbf{Sample 				Solution} $\mathrel{\vcenter{\hbox{\rule{2cm}{0.5pt}}}}$\\[1cm]
+\end{center}
+	\large
+	
+	\setlength{\marginparwidth}{0pt}
+	
+	\section*{Task 1: Partial Correctness}
+	
+	\subsection*{(a)}
+	
+	\begin{enumerate}
+	\item[] $p:=2;$\\
+			$q:=n-p;$\\
+			$\text{\textbf{while}}\;\neg\text{\textbf{prime}}\left(p\right)\vee\neg\text{\textbf{prime}}\left(q\right)\;\text{\textbf{do}}$
+			\begin{enumerate}
+			\item[] $p:=p+1;$\\
+					$q:=n-p;$
+			\end{enumerate}
+	\item[] $\text{\textbf{end}}$
+	\end{enumerate}
+
+	\subsection*{(b)}
+	
+	\pagenumbering{gobble}
+	
+	\normalsize
+	
+	\begin{enumerate}
+	\item[] Let $c=\text{\textbf{while}}\;\neg\text{\textbf{prime}}\left(p\right)\vee\neg\text{\textbf{prime}}\left(q\right)\;\text{\textbf{do}}$
+			\begin{enumerate}
+			\item[] $p:=p+1;$\\
+					$q:=n-p;$
+			\end{enumerate}
+	\item[] $\text{\textbf{end}}$
+	\end{enumerate}		
+	
+	\begin{center}
+	\begin{prooftree}
+	\hypo {\textcircled{a}}
+	\hypo {\textcircled{b}}
+	\hypo {\textcircled{c}}
+	\infer[left label = \small{(seq)}]2 {\left\{p=2\right\}\;q=n-p;\;c\;\left\{\text{\textbf{prime}}\left(p\right)\wedge\text{\textbf{prime}}\left(q\right)\wedge n=q+p\right\}}
+	\infer[left label = \small{(seq)}]2 {\left\{\text{\textbf{true}}\right\}\;p:=2;\;q=n-p;\;c\left\{\text{\textbf{prime}}\left(p\right)\wedge\text{\textbf{prime}}\left(q\right)\wedge n=q+p\right\}}
+	\end{prooftree}\vspace{1cm}
+	\end{center}
+	
+	\textcircled{a}\\
+	\begin{center}
+	\begin{prooftree}
+		\hypo {\models\left(\text{\textbf{true}}\Rightarrow 2=2\right)}
+		\infer[left label = \small{(asgn)}]0 {\left\{2=2\right\}\;p:=2;\;\left\{p=2\right\}}
+		\hypo {\models\left(p=2\Rightarrow p=2\right)}
+		\infer[left label = \small{(cons)}]3 {\left\{\text{\textbf{true}}\right\}\;p:=2;\;\left\{p=2\right\}}
+	\end{prooftree}\vspace{1cm}
+	\end{center}
+	
+	\textcircled{b}\\
+	\begin{center}
+	\begin{prooftree}
+		\hypo {\models\left(p=2\Rightarrow n-p=n-p\right)}
+		\infer[left label = \small{(asgn)}]0 {\left\{n-p=n-p\right\}\;q:=n-p;\;\left\{q=n-p\right\}}
+		\hypo {\models\left(q=n-p\Rightarrow q=n-p\right)}
+		\infer[left label = \small{(cons)}]3 {\left\{p=2\right\}\;q=n-p;\;\left\{q=n-p\right\}}
+	\end{prooftree}
+	\end{center}\vspace{1cm}
+	
+	\textcircled{c}\\
+	\begin{center}
+	\begin{prooftree}
+		\hypo {\models\left(q=n-p\Rightarrow n=q+p\right)}
+		\hypo {\textcircled{d}}
+		\infer[left label = \small{(while)}]1 {\left\{n=q+p\right\}\;c\;\left\{\text{\textbf{prime}}\left(p\right)\wedge\text{\textbf{prime}}\left(q\right)\wedge n=q+p\right\}}
+		\hypo {\models\left(\left(\text{\textbf{prime}}\left(p\right)\wedge\text{\textbf{prime}}\left(q\right)\wedge n=q+p\right)\Rightarrow\left(\text{\textbf{prime}}\left(p\right)\wedge\text{\textbf{prime}}\left(q\right)\wedge n=q+p\right)\right)}
+		\infer[left label = \small{(cons)}]3 {\left\{q=n-p\right\}\;c\;\left\{\text{\textbf{prime}}\left(p\right)\wedge\text{\textbf{prime}}\left(q\right)\wedge n=q+p\right\}}
+	\end{prooftree}
+	\end{center}\vspace{1cm}
+	
+	\textcircled{d}\\
+	\begin{center}
+	\begin{prooftree}
+		\hypo {\models\left(n=q+p\wedge\left(\neg\text{\textbf{prime}}\left(p\right)\vee\neg\text{\textbf{prime}}\left(q\right)\right)\Rightarrow p+1=p+1\right)}
+		\infer[left label = \small{(asgn)}]0 {\left\{p+1=p+1\right\}\;p:=p+1\;\left\{p=p+1\right\}}
+		\hypo {\textcircled{e}}
+		\infer[left label = \small{(seq)}]2 {\left\{p+1=p+1\right\}\;p:=p+1;\;q:=n-p;\;\left\{n=q+p\right\}}
+		\hypo {\models\left(n=q+p\Rightarrow n=q+p\right)}
+		\infer[left label = \small{(cons)}]3 {\left\{n=q+p\wedge\left(\neg\text{\textbf{prime}}\left(p\right)\vee\neg\text{\textbf{prime}}\left(q\right)\right)\right\}\;p:=p+1;\;q:=n-p;\;\left\{n=q+p\right\}}
+	\end{prooftree}
+	\end{center}\vspace{1cm}
+	
+	\textcircled{e}\\
+	\begin{center}
+	\begin{prooftree}
+	\hypo {\models\left(p=p+1\Rightarrow n-p=n-p\right)}
+	\infer[left label = (asgn)]0 {\left\{n-p=n-p\right\}\;q:=n-p\;\left\{q=n-p\right\}}
+	\hypo {\models\left(q=n-p\Rightarrow n=q+p\right)}
+	\infer[left label = \small{(cons)}]3 {\left\{p=p+1\right\}\;q:=n-p\;\left\{n=q+p\right\}}
+	\end{prooftree}
+	\end{center}\vspace{3cm}
+	
+	\section*{Task 2: Total Correctness}
+	
+	\subsection*{(a)}
+	
+	\begin{center}
+	\begin{prooftree}
+	\hypo {\models\left(\text{\textbf{true}}\Rightarrow\text{\textbf{true}}\right)}
+	\hypo {\models\left(\left(\text{\textbf{true}}\wedge x\neq 0\right)\Rightarrow\text{\textbf{true}}\right)}
+	\infer0 {\left\{\text{\textbf{true}}\right\}\;x:=x-1\;\left\{\text{\textbf{true}}\right\}}
+	\hypo {\models\left(\text{\textbf{true}}\Rightarrow\text{\textbf{true}}\right)}
+	\infer[left label = \small{(cons)}]3 {\left\{\text{\textbf{true}}\wedge x\neq 0\right\}\;x:=x-1\;\left\{\text{\textbf{true}}\right\}}
+	\infer[left label = \small{(while)}]1 {\left\{\text{\textbf{true}}\right\}\;\text{\textbf{while}}\;x\neq 0\;\text{\textbf{do}}\;x:=x-1\;\text{\textbf{end}}\;\left\{\text{\textbf{true}}\wedge x=0\right\}}
+	\hypo {\models\left(\left(x=0\wedge\text{\textbf{true}}\right)\Rightarrow\text{\textbf{true}}\right)}
+	\infer[left label = \small{(cons)}]3 {\left\{\text{\textbf{true}}\right\}\;\text{\textbf{while}}\;x\neq 0\;\text{\textbf{do}}\;x:=x-1\;\text{\textbf{end}}\;\left\{\text{\textbf{true}}\right\}}
+	\end{prooftree}
+	\end{center}\vspace{1cm}
+	
+	\subsection*{(b)}
+	
+	\begin{center}
+	\begin{prooftree}
+	\hypo {\models\left(x>0\Rightarrow\left(\exists i\geq 0\wedge x=i\right)\right)}
+	\hypo {\models\left(\left(i\geq 0\wedge x=i+1\right)\Rightarrow x\neq 0\right)}
+	\hypo {\models\left(\left(i\geq 0\wedge x=i+1\right)\Rightarrow x=i+1\right)}
+	\infer0 {\left\{x=i+1\right\}\;x:=x-1\;\left\{\Downarrow x=i\right\}}
+	\hypo {\models\left(x=i\Rightarrow x=i\right)}
+	\infer[left label = \small{(cons)}]3 {\left\{i\geq 0\wedge x=i+1\right\}\;x:=x-1\;\left\{\Downarrow x=i\right\}}
+	\hypo {\left(x=0\Rightarrow x=0\right)}
+	\infer[left label = \small{(while)}]3 {\left\{\exists i\geq 0\wedge x=i\right\}\;\text{\textbf{while}}\;x\neq 0\;\text{\textbf{do}}\;x:=x-1\;\text{\textbf{end}}\;\left\{\Downarrow x=0\right\}}
+	\hypo {\left(x=0\Rightarrow\text{\textbf{true}}\right)}
+	\infer[left label = \small{(cons)}]3 {\left\{x>0\right\}\;\text{\textbf{while}}\;x\neq 0\;\text{\textbf{do}}\;x:=x-1\;\text{\textbf{end}}\;\left\{\Downarrow\text{\textbf{true}}\right\}}
+	\end{prooftree}
+	\end{center}\vspace{1cm}
+	
+	\subsection*{(c)}
+	
+	This statement will be disproved by contradiction.\\
+	
+	\begin{center}
+	\begin{prooftree}
+	\hypo {\models\left(x<0\Rightarrow x< 0\right)}
+	\hypo {\models\left(\left(x< 0\wedge x\neq 0\right)\Rightarrow x<0\right)}
+	\hypo {\models\left(x<0\Rightarrow x<1\right)}
+	\infer0 {\left\{x<1\right\}\;x:=x-1\;\left\{x<0\right\}}
+	\hypo {\models\left(x<0\Rightarrow x<0\right)}
+	\infer[left label = \small{(cons)}]3 {\left\{x<0\right\}\;x:=x-1\;\left\{x<0\right\}}
+	\hypo {\models\left(x<0\Rightarrow x<0\right)}
+	\infer[left label = \small{(cons)}]3 {\left\{x< 0\wedge x\neq 0\right\}\;x:=x-1\;\left\{x<0\right\}}
+	\infer[left label = \small{(while)}]1 {\left\{x< 0\right\}\;\text{\textbf{while}}\;x\neq 0\;\text{\textbf{do}}\;x:=x-1\;\text{\textbf{end}}\;\left\{x<0\wedge x=0\right\}}
+	\hypo {\models\left(\left(x=0\wedge x<0\right)\Rightarrow\text{\textbf{false}}\right)}
+	\infer[left label = \small{(cons)}]3 {\left\{x<0\right\}\;\text{\textbf{while}}\;x\neq 0\;\text{\textbf{do}}\;x:=x-1\;\text{\textbf{end}}\;\left\{\text{\textbf{false}}\right\}}
+	\end{prooftree}
+	\end{center}
+	
+	As this statement holds the total correctness of $\left\{\text{\textbf{true}}\right\}\;\text{\textbf{while}}\;x\neq 0\;\text{\textbf{do}}\;x:=x-1\;\text{\textbf{end}}\;\left\{\Downarrow\text{\textbf{true}}\right\}$ is not satisfied.
+	
+	
+
+\end{document}
